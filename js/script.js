@@ -128,10 +128,24 @@ async function main() {
         }
     })
 
+    document.body.addEventListener("keydown", element => {
+        if (element.keyCode == 32) {
+            if (currentSong.paused) {
+                currentSong.play()
+                play.src = "img/pause.svg"
+            }
+
+            else {
+                currentSong.pause()
+                play.src = "img/play.svg"
+            }
+        }
+    })
+
     currentSong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`
         document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%"
-        if (currentSong.currentTime == currentSong.duration) { 
+        if (currentSong.currentTime == currentSong.duration) {
             let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0])
             if ((index + 1) < songs.length) {
                 playMusic(songs[index + 1])
